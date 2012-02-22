@@ -21,6 +21,10 @@ var app = {
     return $('#top');
   })(),
 
+  clear: function() {
+    this.$main.empty();
+  },
+
   error: (function() {
     var template = $('#error-tmpl').html();
 
@@ -38,10 +42,6 @@ var app = {
                 .alert();
     }
   })(),
-
-  clear: function() {
-    this.$main.empty();
-  },
 
   init: function(callback) {
     var Login = app.module('login');
@@ -107,6 +107,20 @@ var app = {
         app.$main.append(messagesView.render().el);
       });
     });
+  },
+
+  requireLogin: function(callback) {
+    if (app.login.get('username')) {
+      return callback(app.login.get('username'));
+    }
+
+    app.login.on('modal-closed', function() {
+      if (app.login.get('username')) {
+        return callback(app.login.get('username'));
+      }
+    });
+
+    app.login.trigger('log-in');
   }
 };
 

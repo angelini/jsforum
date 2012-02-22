@@ -98,6 +98,7 @@
 
       this.model.bind('logged-in', this.update);
       this.model.bind('logged-out', this.update);
+      this.model.bind('log-in', this.login);
     },
 
     render: function() {
@@ -118,16 +119,14 @@
     },
 
     login: function() {
+      var that = this;
+
       var modalView = new Login.ModalView({
         model: this.model
       });
 
       app.$main.append(modalView.render().el);
       var $modal = app.$main.find('#login-modal');
-
-      $modal.on('hidden', function() {
-        $modal.remove();
-      });
 
       $modal.modal();
     },
@@ -152,17 +151,21 @@
     },
 
     render: function() {
+      var that = this;
       this.$el.html(this.template);
+
+      var $modal = this.$el.find('#login-modal');
+
+      $modal.on('hidden', function() {
+        that.model.trigger('modal-closed')
+        $modal.remove();
+      });
+
       return this;
     },
 
     close: function() {
       var $modal = this.$el.find('#login-modal');
-
-      $modal.on('hidden', function() {
-        $modal.remove();
-      });
-      
       $modal.modal('hide');
     },
 

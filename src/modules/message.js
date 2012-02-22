@@ -1,7 +1,7 @@
 (function(Message) {
   
   Message.Model = Backbone.Model.extend({
-    
+
   });
 
   Message.Collection = Backbone.Collection.extend({
@@ -19,6 +19,28 @@
 
     comparator: function(message) {
       return message.get('created');
+    },
+
+    newMessage: function(username, text) {
+      var that = this;
+
+      var message = new Message.Model({
+        username: username,
+        message: text
+      });
+
+      this.add(message);
+
+      message.save({
+        success: function() {
+          console.log('success');
+        },
+
+        error: function(message, err) {
+          console.log('called');
+          app.error('Save Error: ' + err.statusText);
+        }
+      });
     }
   });
 
@@ -43,9 +65,15 @@
   Message.ListView = Backbone.View.extend({
     className: 'messages span9',
     
+    events: {
+      'submit form': 'newMessage'
+    },
+
     initialize: function() {
       _.bindAll(this);
       this.template = $('#messages-tmpl').html();
+
+      this.collection.bind('add', this.render);
     },
 
     render: function() {
@@ -63,7 +91,22 @@
       });
 
       return this;
-    }    
+    },
+
+    newMessage: function(ev) {
+      ev.preventDefault();
+
+      var that = this;
+
+      app.requireLogin(function(username) {
+        var $textarea = that.$el.find('textarea');
+        
+        var text = $textarea.val();
+        that.collection.newMessage(username, text);
+
+        $textarea.val('');
+      });
+    }
   });
 
 })(app.module('message'));
