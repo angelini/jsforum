@@ -1,0 +1,31 @@
+#login-modal .modal-body {
+  overflow: auto;
+}
+
+#login-modal form {
+  margin: 0;
+  width: 210px;
+}
+
+#login-modal form.login {
+  float: left;
+  margin-right: 57px;
+}
+
+#login-modal .vert {
+  float: left;
+  height: 182px;
+  border: 1px solid rgb(220, 220, 220);
+}
+
+#login-modal form.register {
+  float: right;
+}
+
+#login-modal form input {
+  margin: 8px 0;
+}
+
+#login-modal form input[type="submit"] {
+  float: right;
+}

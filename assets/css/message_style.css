@@ -1,0 +1,33 @@
+.messages ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.messages textarea {
+  resize: none;
+  height: 80px;
+  width: 100%;
+}
+
+.message {
+  position: relative;
+  min-height: 120px;
+}
+
+.message img {
+  position: absolute;
+  left: 0;
+  width: 80px;
+}
+
+.message .content {
+  margin-left: 90px;
+}
+
+.message .username {
+  font-weight: bold;
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid rgb(180, 180, 180);
+}

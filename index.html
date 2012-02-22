@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>JS Forum</title>
+  <link rel="stylesheet" type="text/css" href="/assets/css/index.css">
+</head>
+<body>
+  <div class="container-fluid">
+    <div id="top" class="hero-unit well">
+      <h1>JS Forum</h1>
+      <p>Fast and simple forum software built with Javascript and Redis</p>
+    </div>
+    <div id="main" class="row-fluid"></div>
+  </div>
+  
+  <!-- Templates -->
+  <script id="section-tmpl" type="text/template">
+    <div class="info">
+      <span class="title">{{title}}</span>
+      <span> - {{thread_count}} threads</span>
+    </div>
+    <i class="icon icon-plus"></i>
+  </script>
+  
+  <script id="sections-tmpl" type="text/template">
+    <ul></ul>
+  </script>
+  
+  <script id="section-nav-tmpl" type="text/template">
+    <a href="/#sections/{{id}}">{{title}}</a>
+  </script>
+
+  <script id="sections-nav-tmpl" type="text/template">
+    <ul class="nav nav-list">
+      <li class="nav-header">Sections</li>
+    </ul>
+  </script>
+
+  <script id="thread-tmpl" type="text/template">
+    <div>
+      <span class="title">{{title}}</span>
+      <span> by {{username}}</span>
+    </div>
+  </script>
+
+  <script id="threads-tmpl" type="text/template">
+    <ul></ul>
+  </script>
+
+  <script id="message-tmpl" type="text/template">
+    <img src="/assets/img/default-avatar.png" alt="default-avatar"/>
+    <div class="content">
+      <div class="username">{{username}}</div>
+      <div class="text">{{message}}</div>
+    </div>
+  </script>
+
+  <script id="messages-tmpl" type="text/template">
+    <ul></ul>
+    <form class="well">
+      <label>New Message</label>
+      <textarea></textarea>
+    </form>
+  </script>
+
+  <script id="error-tmpl" type="text/template">
+    <div class="alert alert-error">
+      <a class="close" data-dismiss="alert">×</a>
+      {{message}}
+    </div>
+  </script>
+
+  <script id="logged-out-tmpl" type="text/template">
+    <button class="login btn btn-primary">Login</button>
+  </script>
+
+  <script id="logged-in-tmpl" type="text/template">
+    <p>You are logged in as {{username}}</p>
+    <button class="logout btn">Logout</button>
+  </script>
+
+  <script id="login-modal-tmpl" type="text/template">
+    <div id="login-modal" class="modal hide fade">
+      <div class="modal-header">
+        <a class="close" data-dismiss="modal">×</a>
+        <h3>Login to JS Forum</h3>
+      </div>
+      <div class="modal-body">
+        <form class="login">
+          <input type="text" placeholder="Username" name="username"/><br/>
+          <input type="password" placeholder="Password" name="password"/><br/>
+          <input type="submit" class="btn btn-primary" value="Login"/>
+        </form>
+        <div class="vert"></div>
+        <form class="register">
+          <input type="text" placeholder="Username" name="username"/><br/>
+          <input type="text" placeholder="Email" name="email"/><br/>
+          <input type="password" placeholder="Password" name="password"/><br/>
+          <input type="submit" class="btn btn-primary" value="Register"/>
+        </form>
+      </div>
+      <div class="modal-footer"></div>
+    </div>
+  </script>
+
+  <!-- Third-Party Libraries -->
+  <script src="/assets/js/jquery-1.7.1.js"></script>
+  <script src="/assets/js/underscore-1.3.1.js"></script>
+  <script src="/assets/js/backbone-0.9.1.js"></script>
+  <script src="/assets/js/mustache-0.5.0.js"></script>
+  <script src="/assets/js/jquery-cookie.js"></script>
+
+  <script src="/assets/js/bootstrap-alert-2.0.1.js"></script>
+  <script src="/assets/js/bootstrap-modal-2.0.1.js"></script>
+  <script src="/assets/js/bootstrap-transition-2.0.1.js"></script>
+  
+  <!-- Application Core -->
+  <script src="/src/application.js"></script>
+  
+  <!-- Modules -->
+  <script src="/src/modules/message.js"></script>
+  <script src="/src/modules/thread.js"></script>
+  <script src="/src/modules/section.js"></script>
+  <script src="/src/modules/login.js"></script>
+</body>
+</html>

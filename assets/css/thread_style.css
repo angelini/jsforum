@@ -1,0 +1,18 @@
+.threads {
+  margin-top: 20px;
+}
+
+.threads ul li:last-child {
+  margin-bottom: 0;
+}
+
+.thread {
+  cursor: pointer;
+  border-color: rgb(180, 180, 180);
+  background-color: white;
+  padding: 10px;
+}
+
+.thread:hover {
+  background-color: whiteSmoke;
+}
