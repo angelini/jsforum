@@ -19,10 +19,67 @@
       }
     },
 
+    login: function(username, password) {
+      var that = this;
+
+      var data = {
+        username: username,
+        password: password
+      };
+
+      $.ajax({
+        url: '/login',
+        type: 'POST',
+        data: data,
+        statusCode: {
+          500: function() {
+            app.error('Internal Server Error');
+          },
+
+          401: function() {
+            app.error('Incorect Password');
+          },
+
+          200: function() {
+            that.trigger('logged-in');
+          }
+        }
+      })
+    },
+
     logout: function() {
       $.cookie(AUTH, null);
       this.set('username', null);
-      this.trigger('change-status');
+      this.trigger('logged-out');
+    },
+
+    register: function(username, email, password) {
+      var that = this;
+
+      var data = {
+        username: username,
+        email: email,
+        password: password
+      };
+
+      $.ajax({
+        url: '/users',
+        type: 'POST',
+        data: data,
+        statusCode: {
+          500: function() {
+            app.error('Internal Server Error');
+          },
+
+          409: function() {
+            app.error('Username Already In Use');
+          },
+
+          201: function() {
+            that.login(data.username, data.password);
+          }
+        }
+      })
     }
   });
 
@@ -38,6 +95,9 @@
       _.bindAll(this);
       this.inTemplate = $('#logged-in-tmpl').html();
       this.outTemplate = $('#logged-out-tmpl').html();
+
+      this.model.bind('logged-in', this.update);
+      this.model.bind('logged-out', this.update);
     },
 
     render: function() {
@@ -50,6 +110,11 @@
       }
 
       return this;
+    },
+
+    update: function() {
+      this.model.setUsername();
+      this.render();
     },
 
     login: function() {
@@ -82,6 +147,8 @@
     initialize: function() {
       _.bindAll(this);
       this.template = $('#login-modal-tmpl').html();
+
+      this.model.bind('logged-in', this.close);
     },
 
     render: function() {
@@ -89,44 +156,37 @@
       return this;
     },
 
-    login: function(ev) {
-      ev.preventDefault();
-      var that = this;
+    close: function() {
+      var $modal = this.$el.find('#login-modal');
 
-      var data = {
-        username: this.$el.find('input[name="username"]').val(),
-        password: this.$el.find('input[name="password"]').val(),
-      }
-
-      $.ajax({
-        url: '/login',
-        type: 'POST',
-        data: data,
-        statusCode: {
-          500: function() {
-            app.error('Internal Server Error');
-          },
-
-          401: function() {
-            app.error('Incorect Password');
-          },
-
-          200: function() {
-            var $modal = that.$el.find('#login-modal');
-            that.model.trigger('change-status');
-
-            $modal.on('hidden', function() {
-              $modal.remove();
-            });
-            
-            $modal.modal('hide');
-          }
-        }
-      })
+      $modal.on('hidden', function() {
+        $modal.remove();
+      });
+      
+      $modal.modal('hide');
     },
 
-    register: function() {
+    login: function(ev) {
+      ev.preventDefault();
       
+      var $login = this.$el.find('.login');
+
+      var username = $login.find('input[name="username"]').val();
+      var password = $login.find('input[name="password"]').val();
+
+      this.model.login(username, password);
+    },
+
+    register: function(ev) {
+      ev.preventDefault();
+
+      var $register = this.$el.find('.register');
+
+      var username = $register.find('input[name="username"]').val();
+      var password = $register.find('input[name="password"]').val();
+      var email = $register.find('input[name="email"]').val();
+
+      this.model.register(username, email, password);
     }
   });
 

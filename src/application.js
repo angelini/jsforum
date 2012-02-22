@@ -43,27 +43,15 @@ var app = {
     this.$main.empty();
   },
 
-  loginStatus: function() {
+  init: function(callback) {
     var Login = app.module('login');
+    app.login = new Login.Model();
 
     var loginStatusView = new Login.StatusView({
       model: app.login
     });
 
-    app.$top.find('.login-status').remove();
     app.$top.append(loginStatusView.render().el);
-  },
-
-  init: function(callback) {
-    var Login = app.module('login');
-    app.login = new Login.Model();
-
-    app.loginStatus();
-
-    app.login.bind('change-status', function() {
-      app.login.setUsername();
-      app.loginStatus();
-    });
 
     var Section = app.module('section');
     var sections = new Section.Collection();
