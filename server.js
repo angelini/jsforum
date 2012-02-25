@@ -40,12 +40,12 @@ var router = connect.router(function(app) {
     var cookies = new Cookies(req, res, cookie_keys);
 
     storage.verify(req.body.username, req.body.password, function(err, result) {
-      if (err) {
+      if (err && err.message != 'User Not Found') {
         res.writeHead(500, {'content-type': 'application/json'});
         return res.end(JSON.stringify({ error: 'Internal Error' }));
       }
 
-      if (!result) {
+      if (!result || (err && err.message == 'User Not Found')) {
         res.writeHead(401);
         return res.end();
       }

@@ -6,6 +6,8 @@ module.exports = {
     return /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/.test(email);
   },
 
+  GRAVATAR_URL: 'http://www.gravatar.com/avatar/{{hash}}.jpg?d=identicon',
+
   AUTH: 'user-auth',
 
   SPLIT: '::',

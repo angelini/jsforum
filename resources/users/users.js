@@ -2,6 +2,7 @@ var config      = require('../../config');
 var EMAIL_TEST  = config.EMAIL_TEST;
 
 var validob     = require('validob');
+var crypto      = require('crypto');
 var UserStorage = require('../../storage/user_storage');
 
 var storage = new UserStorage();
@@ -31,6 +32,11 @@ var Users = {
       }
 
       validated.body.created = Date.now();
+
+      var md_hash = crypto.createHash('md5');
+
+      md_hash.update(validated.body.email);
+      validated.body.emailhash = md_hash.digest('hex');
 
       storage.createUser(validated.body.username, validated.body, function(err) {
         if (err) { return callback(err); }

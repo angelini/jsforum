@@ -30,7 +30,6 @@ UserStorage.prototype.createUser = function(username, user_info, callback) {
   function checkForConflict(callback) {
     that.getUser(username, function(err, user) {
       if (user && user.username) {
-        console.log('Got Here');
         var error = new Error('User Already Exists');
         error.statusCode = 409;
         return callback(error);

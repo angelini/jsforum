@@ -1,7 +1,9 @@
 (function(Message) {
-  
-  Message.Model = Backbone.Model.extend({
 
+  Message.Model = Backbone.Model.extend({
+    deleteMessage: function() {
+      this.destroy();
+    }
   });
 
   Message.Collection = Backbone.Collection.extend({
@@ -22,8 +24,6 @@
     },
 
     newMessage: function(username, text) {
-      var that = this;
-
       var message = new Message.Model({
         username: username,
         message: text
@@ -32,12 +32,7 @@
       this.add(message);
 
       message.save({
-        success: function() {
-          console.log('success');
-        },
-
         error: function(message, err) {
-          console.log('called');
           app.error('Save Error: ' + err.statusText);
         }
       });
@@ -49,6 +44,10 @@
 
     className: 'message',
 
+    events: {
+      'click .close': 'deleteMessage'
+    },
+
     initialize: function() {
       _.bindAll(this);
       this.template = $('#message-tmpl').html();
@@ -59,6 +58,16 @@
       this.$el.html(html);
 
       return this;
+    },
+
+    deleteMessage: function(ev) {
+      ev.preventDefault();
+
+      if (this.model.get('username') != app.login.get('username')) {
+        return app.error('You Did Not Create This Message');
+      }
+
+      this.model.deleteMessage();
     }
   });
 
@@ -74,6 +83,7 @@
       this.template = $('#messages-tmpl').html();
 
       this.collection.bind('add', this.render);
+      this.collection.bind('destroy', this.render);
     },
 
     render: function() {

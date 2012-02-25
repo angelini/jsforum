@@ -1,15 +1,3 @@
-.sections ul {
-  list-style: none;
-  margin: 0;
-}
-
-.section .info {
-  display: inline-block;
-}
-
-.section .icon {
-  cursor: pointer;
-  display: inline-block;
+.section .count {
   float: right;
-  margin-top: 4px;
 }

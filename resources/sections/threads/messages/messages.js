@@ -36,6 +36,10 @@ var Messages = {
         });
       }
 
+      if (validated.body.username !=  this.token.username) {
+        return callback({ statusCode: 401 });
+      }
+
       validated.body.created = Date.now();
 
       storage.createMessage(sid, tid, validated.body, function(err, mid) {

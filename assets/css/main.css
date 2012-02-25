@@ -4,21 +4,44 @@
   box-sizing: border-box; 
 }
 
+body {
+  background-image: url('/assets/img/bg.png');
+}
+
 input[type="text"],
 input[type="password"] {
   padding: 14px 7px;
-  margin-bottom: 0;
 }
 
 .container-fluid {
+  background-color: white;
   max-width: 1200px;
   margin: 0 auto;
+  min-height: 600px;
 }
 
 .hero-unit {
   padding: 40px;
+  position: relative;
+  margin-bottom: 20px;
 }
 
 .title {
   font-size: 16px;
+}
+
+.login-status {
+  position: absolute;
+  top: 25px;
+  right: 40px;
+}
+
+.login-status p {
+  display: inline-block;
+  font-size: 14px;
+  margin-right: 10px;
+}
+
+#error {
+  margin-bottom: 30px;
 }

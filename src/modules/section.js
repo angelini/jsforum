@@ -37,11 +37,10 @@
   Section.SingleView = Backbone.View.extend({
     tagName: 'li',
 
-    className: 'section well',
+    className: 'section',
 
     events: {
-      'click .icon-plus': 'showThreads',
-      'click .icon-minus': 'hideThreads'
+      'click .section-link': 'toggleThreads'
     },
 
     initialize: function() {
@@ -85,6 +84,16 @@
                              .addClass('icon-plus');
 
       app.router.navigate('/');
+    },
+
+    toggleThreads: function(ev) {
+      ev.preventDefault();
+      
+      if (this.$el.find('.threads').length == 0) {
+        this.showThreads();
+      } else {
+        this.hideThreads();
+      }
     }
   });
 

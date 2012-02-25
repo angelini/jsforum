@@ -27,10 +27,11 @@ var app = {
 
   error: (function() {
     var template = $('#error-tmpl').html();
+    var $error = $('#error');
 
     return function(message) {
       var html = Mustache.to_html(template, {message: message});
-      var $prependTo = this.$main;
+      var $prependTo = $error;
       var $login_modal = this.$main.find('#login-modal');
 
       if ($login_modal.length > 0) {

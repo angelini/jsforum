@@ -43,16 +43,31 @@
 
     comparator: function(thread) {
       return thread.get('created');
+    },
+
+    newThread: function() {
+      var thread = new Thread.model({
+        username: username,
+        title: title
+      });
+
+      this.add(thread);
+
+      thread.save({
+        error: function(message, err) {
+          app.error('Save Error: ' + err.statusText);
+        }
+      });
     }
   });
 
   Thread.SingleView = Backbone.View.extend({
     tagName: 'li',
 
-    className: 'thread well',
+    className: 'thread',
 
     events: {
-      'click': 'openThread'
+      'click a.thread-link': 'openThread'
     },
 
     initialize: function() {
@@ -67,7 +82,9 @@
       return this;
     },
 
-    openThread: function() {
+    openThread: function(ev) {
+      ev.preventDefault();
+
       app.router.navigate(
         '/sections/' + this.model.collection.section_id + '/threads/' + this.model.id, 
         { trigger: true }
@@ -77,6 +94,12 @@
 
   Thread.ListView = Backbone.View.extend({
     className: 'threads',
+
+    events: {
+      'click .new-thread-btn': 'openNewThreadForm',
+      'click .new-thread .close': 'closeNewThreadForm',
+      'submit .new-thread': 'newThread'
+    },
 
     initialize: function() {
       _.bindAll(this);
@@ -98,6 +121,22 @@
       });
 
       return this;
+    },
+
+    closeNewThreadForm: function() {
+      this.$el.find('.new-thread').addClass('hide');
+      this.$el.find('.new-thread-btn').removeClass('hide');
+    },
+
+    openNewThreadForm: function() {
+      this.$el.find('.new-thread').removeClass('hide');
+      this.$el.find('.new-thread-btn').addClass('hide');
+    },
+
+    newThread: function(ev) {
+      ev.preventDefault();
+
+      this.closeNewThreadForm();
     }
   });
 

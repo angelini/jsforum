@@ -11,20 +11,20 @@
       <h1>JS Forum</h1>
       <p>Fast and simple forum software built with Javascript and Redis</p>
     </div>
+    <div id="error"></div>
     <div id="main" class="row-fluid"></div>
   </div>
   
   <!-- Templates -->
   <script id="section-tmpl" type="text/template">
-    <div class="info">
+    <a class="section-link" href="#">
       <span class="title">{{title}}</span>
-      <span> - {{thread_count}} threads</span>
-    </div>
-    <i class="icon icon-plus"></i>
+      <span class="count">{{thread_count}} threads</span>
+    </a>
   </script>
   
   <script id="sections-tmpl" type="text/template">
-    <ul></ul>
+    <ul class="section-list nav nav-tabs nav-stacked"></ul>
   </script>
   
   <script id="section-nav-tmpl" type="text/template">
@@ -38,19 +38,31 @@
   </script>
 
   <script id="thread-tmpl" type="text/template">
-    <div>
+    <a class="thread-link" href="#">
       <span class="title">{{title}}</span>
       <span> by {{username}}</span>
-    </div>
+    </a>
   </script>
 
   <script id="threads-tmpl" type="text/template">
-    <ul></ul>
+    <div class="new-thread-cont">
+      <form class="new-thread hide">
+        <a class="close">×</a>
+        <label>New Thread Title</label>
+        <input type="text" name="title" /><br />
+        <label>Message</label>
+        <textarea></textarea><br />
+        <input type="submit" value="Create Thread" class="btn" />
+      </form>
+      <button class="btn new-thread-btn">New Thread</button>
+    </div>
+    <ul class="thread-list"></ul>
   </script>
 
   <script id="message-tmpl" type="text/template">
-    <img src="/assets/img/default-avatar.png" alt="default-avatar"/>
+    <img src="/avatars/{{username}}" alt="avatar"/>
     <div class="content">
+      <a class="close">×</a>
       <div class="username">{{username}}</div>
       <div class="text">{{message}}</div>
     </div>
